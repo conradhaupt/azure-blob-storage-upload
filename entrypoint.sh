@@ -26,4 +26,5 @@ fi
 
 # install the azure cli
 pip install azure-cli${CLI_VERSION}
-az storage blob sync --source ${INPUT_SOURCE_DIR} --container ${INPUT_CONTAINER_NAME}
+echo $AZURE_STORAGE_CONNECTION_STRING
+az storage blob sync --source ${INPUT_SOURCE_DIR} --container ${INPUT_CONTAINER_NAME} --connection-string $AZURE_STORAGE_CONNECTION_STRING
