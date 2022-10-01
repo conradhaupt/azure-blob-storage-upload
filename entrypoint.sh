@@ -12,38 +12,14 @@ if [[ -z "$INPUT_CONTAINER_NAME" ]]; then
   exit 1
 fi
 
-CONNECTION_METHOD=""
-
-if [[ -n "$INPUT_CONNECTION_STRING" ]]; then
-  CONNECTION_METHOD="--connection-string $INPUT_CONNECTION_STRING"
-elif [[ -n "$INPUT_SAS_TOKEN" ]]; then
-  if [[ -n "$INPUT_ACCOUNT_NAME" ]]; then
-    CONNECTION_METHOD="--sas-token $INPUT_SAS_TOKEN --account-name $INPUT_ACCOUNT_NAME"
-  else
-    echo "account_name is required if using a sas_token. account_name is not set. Quitting."
-    exit 1
-  fi
+if [[ -n "$AZURE_STORAGE_CONNECTION_STRING" ]]; then
+  echo "Connection string found."
 else
-  echo "either connection_string or sas_token are required and neither is set. Quitting."
+  echo "Connection string AZURE_STORAGE_CONNECTION_STRING was not found. Quitting."
   exit 1
 fi
 
-ARG_OVERWRITE=""
-if [[ -n ${INPUT_OVERWRITE} ]]; then
-  ARG_OVERWRITE="--overwrite true"
-fi
-
-EXTRA_ARGS=""
-if [[ -n ${INPUT_EXTRA_ARGS} ]]; then
-  EXTRA_ARGS=${INPUT_EXTRA_ARGS}
-fi
-
-VERB="upload-batch"
-CONTAINER_NAME_FLAG="--destination"
-if [[ -n ${INPUT_SYNC} ]]; then
-  VERB="sync"
-  CONTAINER_NAME_FLAG="--container"
-fi
+ARG_OVERWRITE="--overwrite true"
 
 CLI_VERSION=""
 if [[ -n ${INPUT_CLI_VERSION} ]]; then
@@ -53,4 +29,4 @@ fi
 # install the azure cli
 pip install azure-cli${CLI_VERSION}
 
-az storage blob ${VERB} ${CONNECTION_METHOD} --source ${INPUT_SOURCE_DIR} ${CONTAINER_NAME_FLAG} ${INPUT_CONTAINER_NAME} ${ARG_OVERWRITE} ${EXTRA_ARGS}
+az storage blob sync --source ${INPUT_SOURCE_DIR} --container ${INPUT_CONTAINER_NAME} ${ARG_OVERWRITE}
