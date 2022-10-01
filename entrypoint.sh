@@ -19,8 +19,6 @@ else
   exit 1
 fi
 
-ARG_OVERWRITE="--overwrite true"
-
 CLI_VERSION=""
 if [[ -n ${INPUT_CLI_VERSION} ]]; then
   CLI_VERSION="==${INPUT_CLI_VERSION}"
@@ -28,4 +26,4 @@ fi
 
 # install the azure cli
 pip install azure-cli${CLI_VERSION}
-az storage blob sync --source ${INPUT_SOURCE_DIR} --container ${INPUT_CONTAINER_NAME} ${ARG_OVERWRITE}
+az storage blob sync --source ${INPUT_SOURCE_DIR} --container ${INPUT_CONTAINER_NAME}
