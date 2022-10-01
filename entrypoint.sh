@@ -12,7 +12,6 @@ if [[ -z "$INPUT_CONTAINER_NAME" ]]; then
   exit 1
 fi
 
-export AZURE_STORAGE_CONNECTION_STRING=${secrets.AZURE_STORAGE_CONNECTION_STRING}
 if [[ -n "$AZURE_STORAGE_CONNECTION_STRING" ]]; then
   echo "Connection string found."
 else
