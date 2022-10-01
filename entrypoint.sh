@@ -12,6 +12,7 @@ if [[ -z "$INPUT_CONTAINER_NAME" ]]; then
   exit 1
 fi
 
+export AZURE_STORAGE_CONNECTION_STRING=${secrets.AZURE_STORAGE_CONNECTION_STRING}
 if [[ -n "$AZURE_STORAGE_CONNECTION_STRING" ]]; then
   echo "Connection string found."
 else
@@ -28,5 +29,4 @@ fi
 
 # install the azure cli
 pip install azure-cli${CLI_VERSION}
-export AZURE_STORAGE_CONNECTION_STRING=${secrets.AZURE_STORAGE_CONNECTION_STRING}
 az storage blob sync --source ${INPUT_SOURCE_DIR} --container ${INPUT_CONTAINER_NAME} ${ARG_OVERWRITE}
